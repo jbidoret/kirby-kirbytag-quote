@@ -16,7 +16,9 @@ Kirby::plugin('jbeyerstedt/quote', [
       'attr' => [
         'author',
         'class',
-        'cite'
+        'cite',
+        'url',
+        'urltext'
       ],
       'html' => function($tag) {
         $html = '';
@@ -25,7 +27,7 @@ Kirby::plugin('jbeyerstedt/quote', [
         if ($tag->option('jbeyerstedt.quote.default_style') == 'bs') {
           $class .= ' blockquote';
         }
-        $html .= '<blockquote class="' . $class . '">';
+        $html .= '<blockquote class="pullquote ' . $class . '">';
 
 
         $class_p = '';
@@ -36,7 +38,7 @@ Kirby::plugin('jbeyerstedt/quote', [
 
 
         if ($tag->author != '') {
-          $html .= '<footer class="blockquote-footer">' . $tag->author . '</footer>';
+          $html .= '<footer class="blockquote-footer">' . $tag->author . r(Str::isURL( trim($tag->url) ), ', <a href="'. trim($tag->url) .'">' . r($tag->urltext != "", $tag->urltext, "source") . '</a>.') . '</footer>';
           if ($tag->cite != '') {
             $html .= '<cite>' . $tag->cite . '</cite>';
           }
