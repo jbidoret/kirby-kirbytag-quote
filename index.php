@@ -1,13 +1,12 @@
 <?php
 /*
  * kirby 3 kirbytag - quote
- * boostrap style blockquotes
  *
- * copyright: Jannik Beyerstedt | http://jannikbeyerstedt.de | code@jannikbeyerstedt.de
+ * Forked from https://github.com/jbeyerstedt/kirby-kirbytag-quote
  * license: http://www.gnu.org/licenses/gpl-3.0.txt GPLv3 License
  */
 
-Kirby::plugin('jbeyerstedt/quote', [
+Kirby::plugin('accentgrave/quote', [
   'options' => [
     'default_style' => 'none'
   ],
@@ -16,34 +15,26 @@ Kirby::plugin('jbeyerstedt/quote', [
       'attr' => [
         'author',
         'class',
-        'cite',
         'url',
         'urltext'
       ],
       'html' => function($tag) {
         $html = '';
 
+        $has_url = $tag->url != '';
+        $url = trim($tag->url);
+
         $class = $tag->class;
-        if ($tag->option('jbeyerstedt.quote.default_style') == 'bs') {
-          $class .= ' blockquote';
-        }
-        $html .= '<blockquote class="pullquote ' . $class . '">';
+        $class .= ' ' . option('accentgrave.quote.blockquote_classname', '');        
+        $html .= '<blockquote class="' . $class . '" ' . e($has_url, 'cite="' . $url .'"'). '>';
 
-
-        $class_p = '';
-        if ($tag->option('jbeyerstedt.quote.default_style') == 'bs') {
-          $class_p .= ' mb-0';
-        }
-        $html .= '<p class="' . $class_p . '">'. $tag->value .'</p>';
-
+        $html .= '<p>' . kirbytextinline($tag->value) . '</p>';
 
         if ($tag->author != '') {
-          $html .= '<footer class="blockquote-footer">' . $tag->author . r(Str::isURL( trim($tag->url) ), ', <a href="'. trim($tag->url) .'">' . r($tag->urltext != "", $tag->urltext, "source") . '</a>.') . '</footer>';
-          if ($tag->cite != '') {
-            $html .= '<cite>' . $tag->cite . '</cite>';
-          }
+          
+          $link = r($has_url, ', <a href="'. $url .'">' . r($tag->urltext != "", $tag->urltext, "source") . '</a>', '');           
+          $html .= '<footer><span class="author">' . $tag->author . '</span>' . $link . '</footer>';          
         }
-
 
         $html .= '</blockquote>';
         return $html;

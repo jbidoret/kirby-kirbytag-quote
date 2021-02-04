@@ -1,12 +1,12 @@
 {
-  "name": "jbeyerstedt/quote",
-  "description": "Kirbytag for (twitter bootstrap) blockquotes",
+  "name": "accentgrave/quote",
+  "description": "Kirbytag for blockquotes",
   "type": "kirby-plugin",
   "license": "GPL-3.0-only",
   "authors": [
     {
-      "name": "Jannik Beyerstedt",
-      "email": "code@jannikbeyerstedt.de"
+      "name": "Julien Bidoret",
+      "email": "julien@accentgrave.net"
     }
   ],
   "require": {
